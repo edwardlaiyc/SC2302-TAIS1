@@ -1,0 +1,4 @@
+# Normalise line endings so Windows and macOS members commit identical files.
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.png binary

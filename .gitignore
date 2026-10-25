@@ -1,0 +1,13 @@
+# Build output
+out/
+
+# Report tooling (installed locally, never committed)
+docs/report/node_modules/
+docs/report/dist/
+
+# Editors and OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
