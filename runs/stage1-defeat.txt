@@ -1,0 +1,61 @@
+# Stage 1 defeat run (base setting).
+# Replay: ./run.sh --replay runs/stage1-defeat.txt
+# Mistake: slow service. Orders are taken late and READY dishes sit on the pass,
+# so customers lose satisfaction for turns they did not need to wait.
+# Result: 4 paid and $51.00 meet two targets, but average satisfaction 52.0
+# misses the third, so the game is lost.
+# Two lines per turn: the Waiter's task, then the Chef's.
+# turn 1
+seat C1 T1
+wait
+# turn 2: C1 is seated but nobody takes the order
+wait
+wait
+# turn 3
+order C1
+cook C1
+# turn 4: C2 arrives; C1's Salad has been READY since turn 3
+seat C2 T2
+wait
+# turn 5
+wait
+wait
+# turn 6
+order C2
+cook C2
+# turn 7: C3 arrives; C1's Salad is finally served, four turns after it was ready
+serve C1
+wait
+# turn 8
+serve C2
+wait
+# turn 9: C3 is still in the queue
+wait
+wait
+# turn 10: C4 arrives
+seat C3 T1
+wait
+# turn 11
+seat C4 T2
+wait
+# turn 12
+order C3
+cook C3
+# turn 13: C5 arrives
+order C4
+cook C3
+# turn 14
+wait
+cook C4
+# turn 15
+serve C3
+wait
+# turn 16: C6 arrives
+serve C4
+wait
+# turn 17
+wait
+wait
+# turn 18: too late for C5 to pay
+seat C5 T1
+wait

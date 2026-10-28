@@ -1,0 +1,60 @@
+# Stage 1 victory run (base setting).
+# Replay: ./run.sh --replay runs/stage1-victory.txt
+# Plan: keep the Waiter in a seat -> order -> serve rhythm, and cook every dish
+# the turn its order is taken, so no one waits longer than they must.
+# Two lines per turn: the Waiter's task, then the Chef's.
+# turn 1
+seat C1 T1
+wait
+# turn 2
+order C1
+cook C1
+# turn 3
+serve C1
+wait
+# turn 4
+seat C2 T2
+wait
+# turn 5
+order C2
+cook C2
+# turn 6
+serve C2
+wait
+# turn 7
+seat C3 T1
+wait
+# turn 8
+order C3
+cook C3
+# turn 9: Pasta needs a second unit; the Waiter has nothing useful to do
+wait
+cook C3
+# turn 10: staff constrained. C4 arrives, but C3's Pasta is READY.
+# Serving C3 first stops C3 losing satisfaction; C4 waits one turn in the queue.
+serve C3
+wait
+# turn 11
+seat C4 T2
+wait
+# turn 12
+order C4
+cook C4
+# turn 13
+serve C4
+wait
+# turn 14
+seat C5 T1
+wait
+# turn 15
+order C5
+cook C5
+# turn 16
+serve C5
+wait
+# turn 17
+seat C6 T2
+wait
+# turn 18: C6 cannot pay before the game ends; that is expected.
+order C6
+cook C6
