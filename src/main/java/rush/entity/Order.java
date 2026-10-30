@@ -84,6 +84,10 @@ public class Order {
         return unitsDone;
     }
 
+    public int getReadyTurn() {
+        return readyTurn;
+    }
+
     public int getUnitsNeeded() {
         return item.getPreparationUnits();
     }

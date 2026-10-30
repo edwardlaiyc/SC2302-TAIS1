@@ -20,6 +20,7 @@ public class Main {
     private static final String USAGE = """
             Usage: run [options]
               --replay FILE   play the commands in FILE instead of reading the keyboard
+              --setting NAME  stage1 (Regular customers only) or stage2 (default)
               --csv FILE      write each customer's satisfaction per turn to FILE
               --no-color      plain text output
             """;
@@ -27,11 +28,14 @@ public class Main {
     public static void main(String[] args) {
         String replayFile = null;
         String csvFile = null;
+        String setting = "stage2";
         boolean color = Colors.supported();
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("--replay") && i + 1 < args.length) {
                 replayFile = args[++i];
+            } else if (args[i].equals("--setting") && i + 1 < args.length) {
+                setting = args[++i];
             } else if (args[i].equals("--csv") && i + 1 < args.length) {
                 csvFile = args[++i];
             } else if (args[i].equals("--no-color")) {
@@ -43,7 +47,15 @@ public class Main {
         }
 
         Colors colors = new Colors(color);
-        GameConfig config = GameConfig.standard();
+        GameConfig config;
+        if (setting.equals("stage1")) {
+            config = GameConfig.stage1();
+        } else if (setting.equals("stage2")) {
+            config = GameConfig.stage2();
+        } else {
+            System.out.print(USAGE);
+            return;
+        }
         ConsoleView view = new ConsoleView(colors);
 
         try (BufferedReader in = replayFile == null

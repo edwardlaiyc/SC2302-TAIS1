@@ -26,9 +26,13 @@ public class GameConfig {
         this.objective = objective;
     }
 
-    // the base setting from the brief
-    public static GameConfig standard() {
-        return new GameConfig(18, 2, Menu.standard(), ArrivalSchedule.standard(), Objective.standard());
+    // base setting from the brief with Regular customers only, exactly as in stage 1
+    public static GameConfig stage1() {
+        return new GameConfig(18, 2, Menu.standard(), ArrivalSchedule.allRegular(), Objective.standard());
+    }
+
+    public static GameConfig stage2() {
+        return new GameConfig(18, 2, Menu.standard(), ArrivalSchedule.withVipAndCritic(), Objective.standard());
     }
 
     public Restaurant createRestaurant() {

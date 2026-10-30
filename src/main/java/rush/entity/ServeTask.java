@@ -38,6 +38,8 @@ public class ServeTask extends Task {
 
     @Override
     public String getResult() {
-        return customer + " gets " + customer.getOrder().getItem() + " and starts eating";
+        String reaction = customer.getReaction();
+        return customer + " gets " + customer.getOrder().getItem() + " and starts eating"
+                + (reaction.isEmpty() ? "" : " (" + reaction + ")");
     }
 }

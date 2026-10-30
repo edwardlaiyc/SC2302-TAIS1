@@ -46,7 +46,7 @@ public class ConsoleView implements GameListener {
 
         List<String> queue = new ArrayList<>();
         for (Customer customer : restaurant.getQueue().getCustomers()) {
-            queue.add(customer + " " + satisfaction(customer));
+            queue.add(customer + " " + customer.getType() + " " + satisfaction(customer));
         }
         System.out.println(label("Queue") + (queue.isEmpty() ? colors.dim("empty") : String.join("   ", queue)));
 
@@ -76,7 +76,7 @@ public class ConsoleView implements GameListener {
 
     @Override
     public void customerArrived(Customer customer) {
-        System.out.println(colors.cyan(" + " + customer + " arrives and joins the queue (100)"));
+        System.out.println(colors.cyan(" + " + customer + " (" + customer.getType() + ") arrives and joins the queue (100)"));
     }
 
     @Override
@@ -150,11 +150,12 @@ public class ConsoleView implements GameListener {
         }
         Order order = customer.getOrder();
         if (order == null) {
-            return table + "  " + customer + " " + satisfaction(customer) + "   no order yet";
+            return table + "  " + customer + " " + customer.getType() + " " + satisfaction(customer) + "   no order yet";
         }
         // before serving, show how the dish is doing; after, show the customer
         String status = customer.getState() == CustomerState.ORDERED ? order.getStatus().name() : customer.getState().name();
-        return table + "  " + customer + " " + satisfaction(customer) + "   " + order.getItem() + "  " + status;
+        return table + "  " + customer + " " + customer.getType() + " " + satisfaction(customer) + "   "
+                + order.getItem() + "  " + status;
     }
 
     private String satisfaction(Customer customer) {

@@ -1,9 +1,9 @@
 package rush.entity;
 
-public class Customer {
+// each kind of customer fills in its own loss per turn, bill and reactions
+public abstract class Customer {
 
     public static final int MAX_SATISFACTION = 100;
-    private static final int SATISFACTION_LOSS = 8;
 
     private final int id;
     private final int arrivalTurn;
@@ -15,9 +15,22 @@ public class Customer {
     private int servedTurn;
     private int readyToPayTurn;
 
-    public Customer(int id, int arrivalTurn) {
+    protected Customer(int id, int arrivalTurn) {
         this.id = id;
         this.arrivalTurn = arrivalTurn;
+    }
+
+    public abstract String getType();
+
+    public abstract int getSatisfactionLoss();
+
+    public Money getBill(MenuItem item) {
+        return item.getPrice();
+    }
+
+    // shown after the dish is served; only some customers react
+    public String getReaction() {
+        return "";
     }
 
     // customer n picks dish (n - 1) mod menu size: Salad, Burger, Pasta, Salad, ...
@@ -32,7 +45,7 @@ public class Customer {
 
     Order placeOrder(Menu menu, int turn) {
         MenuItem item = chooseItem(menu);
-        order = new Order(this, item, item.getPrice(), turn);
+        order = new Order(this, item, getBill(item), turn);
         state = CustomerState.ORDERED;
         return order;
     }
@@ -70,8 +83,12 @@ public class Customer {
     }
 
     boolean loseSatisfaction() {
-        satisfaction = Math.max(0, satisfaction - SATISFACTION_LOSS);
+        reduceSatisfaction(getSatisfactionLoss());
         return satisfaction == 0;
+    }
+
+    protected void reduceSatisfaction(int amount) {
+        satisfaction = Math.max(0, satisfaction - amount);
     }
 
     void leave() {
