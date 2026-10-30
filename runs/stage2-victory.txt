@@ -1,0 +1,57 @@
+# Stage 2 victory run: C2 is a VIP, C4 is a Critic.
+# Replay: ./run.sh --replay runs/stage2-victory.txt
+# Two lines per turn: the Waiter's task, then the Chef's.
+# turn 1
+seat C1 T1
+wait
+# turn 2
+order C1
+cook C1
+# turn 3
+serve C1
+wait
+# turn 4: the VIP arrives
+seat C2 T2
+wait
+# turn 5: the VIP's Burger is billed at 90%
+order C2
+cook C2
+# turn 6
+serve C2
+wait
+# turn 7
+seat C3 T1
+wait
+# turn 8
+order C3
+cook C3
+# turn 9
+wait
+cook C3
+# turn 10: the Critic arrives, but C3's Pasta is READY; serve it first
+serve C3
+wait
+# turn 11
+seat C4 T2
+wait
+# turn 12: the Critic always orders the longest dish (Pasta)
+order C4
+cook C4
+# turn 13: T1 is free again, so seat C5 while the Chef finishes the Pasta
+seat C5 T1
+cook C4
+# turn 14: serve the Critic the turn after the Pasta is ready, so it is not cold
+serve C4
+wait
+# turn 15
+order C5
+cook C5
+# turn 16
+serve C5
+wait
+# turn 17
+seat C6 T2
+wait
+# turn 18
+order C6
+cook C6

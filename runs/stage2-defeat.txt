@@ -1,0 +1,59 @@
+# Stage 2 defeat run: C2 is a VIP, C4 is a Critic.
+# Replay: ./run.sh --replay runs/stage2-defeat.txt
+# Mistake: slow service, and the Critic's Pasta is left on the pass until it is cold.
+# Only three customers pay in time, so the game is lost.
+# Two lines per turn: the Waiter's task, then the Chef's.
+# turn 1
+seat C1 T1
+wait
+# turn 2: nobody takes C1's order
+wait
+wait
+# turn 3
+order C1
+cook C1
+# turn 4: the VIP arrives
+seat C2 T2
+wait
+# turn 5
+wait
+wait
+# turn 6
+order C2
+cook C2
+# turn 7: C1's Salad has been READY since turn 3
+serve C1
+wait
+# turn 8
+serve C2
+wait
+# turn 9
+wait
+wait
+# turn 10: the Critic arrives
+seat C3 T1
+wait
+# turn 11
+seat C4 T2
+wait
+# turn 12
+order C3
+cook C3
+# turn 13
+order C4
+cook C3
+# turn 14
+wait
+cook C4
+# turn 15: the Critic's Pasta is ready at the end of this turn
+serve C3
+cook C4
+# turn 16: it could be served now, but the Waiter waits
+wait
+wait
+# turn 17: served a turn late, the Critic complains about cold food
+serve C4
+wait
+# turn 18
+wait
+wait
