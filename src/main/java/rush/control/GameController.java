@@ -25,7 +25,7 @@ public class GameController {
         this.config = config;
         this.input = input;
         this.restaurant = config.createRestaurant();
-        this.staff = config.createStaff();
+        this.staff = config.getStaff();
         this.cashier = config.createCashier();
     }
 
@@ -55,6 +55,20 @@ public class GameController {
             restaurant.admit(customer);
             for (GameListener l : listeners) {
                 l.customerArrived(customer);
+            }
+        }
+
+        // Happy Hour can only be switched on at the start of a turn, once per game
+        if (restaurant.getHappyHour().canStart() && input.wantsHappyHour()) {
+            restaurant.startHappyHour(turn);
+            for (GameListener l : listeners) {
+                l.happyHourStarted();
+            }
+        }
+        List<Customer> recovered = restaurant.recoverWaitingCustomers(turn);
+        if (!recovered.isEmpty()) {
+            for (GameListener l : listeners) {
+                l.customersRecovered(recovered, restaurant.getHappyHour().getRecovery());
             }
         }
 

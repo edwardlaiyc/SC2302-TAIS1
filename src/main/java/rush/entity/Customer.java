@@ -43,9 +43,8 @@ public abstract class Customer {
         state = CustomerState.SEATED;
     }
 
-    Order placeOrder(Menu menu, int turn) {
-        MenuItem item = chooseItem(menu);
-        order = new Order(this, item, getBill(item), turn);
+    Order placeOrder(MenuItem item, Money price, int turn) {
+        order = new Order(this, item, price, turn);
         state = CustomerState.ORDERED;
         return order;
     }
@@ -85,6 +84,10 @@ public abstract class Customer {
     boolean loseSatisfaction() {
         reduceSatisfaction(getSatisfactionLoss());
         return satisfaction == 0;
+    }
+
+    void recover(int amount) {
+        satisfaction = Math.min(MAX_SATISFACTION, satisfaction + amount);
     }
 
     protected void reduceSatisfaction(int amount) {

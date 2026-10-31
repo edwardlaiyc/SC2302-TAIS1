@@ -11,4 +11,6 @@ import rush.entity.Task;
 public interface ManagerInput {
 
     Task chooseTask(Staff staff, List<Task> allowed, Restaurant restaurant) throws InvalidTaskException;
+
+    boolean wantsHappyHour();
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import rush.entity.Cashier;
 import rush.entity.Chef;
+import rush.entity.Host;
 import rush.entity.Menu;
 import rush.entity.Objective;
 import rush.entity.Restaurant;
@@ -16,32 +17,44 @@ public class GameConfig {
     private final int tables;
     private final Menu menu;
     private final ArrivalSchedule arrivals;
+    private final List<Staff> staff;
+    private final boolean happyHour;
     private final Objective objective;
 
-    public GameConfig(int turns, int tables, Menu menu, ArrivalSchedule arrivals, Objective objective) {
+    public GameConfig(int turns, int tables, Menu menu, ArrivalSchedule arrivals, List<Staff> staff,
+                      boolean happyHour, Objective objective) {
         this.turns = turns;
         this.tables = tables;
         this.menu = menu;
         this.arrivals = arrivals;
+        this.staff = staff;
+        this.happyHour = happyHour;
         this.objective = objective;
     }
 
     // base setting from the brief with Regular customers only, exactly as in stage 1
     public static GameConfig stage1() {
-        return new GameConfig(18, 2, Menu.standard(), ArrivalSchedule.allRegular(), Objective.standard());
+        return new GameConfig(18, 2, Menu.standard(), ArrivalSchedule.allRegular(),
+                List.of(new Waiter(), new Chef()), false, Objective.standard());
     }
 
     public static GameConfig stage2() {
-        return new GameConfig(18, 2, Menu.standard(), ArrivalSchedule.withVipAndCritic(), Objective.standard());
+        return new GameConfig(18, 2, Menu.standard(), ArrivalSchedule.withVipAndCritic(),
+                List.of(new Waiter(), new Chef()), false, Objective.standard());
+    }
+
+    // staff act in list order, so the Host seats before the Waiter does anything
+    public static GameConfig stage3() {
+        return new GameConfig(18, 2, Menu.withCombos(), ArrivalSchedule.withVipAndCritic(),
+                List.of(new Host(), new Waiter(), new Chef()), true, Objective.standard());
     }
 
     public Restaurant createRestaurant() {
-        return new Restaurant(menu, tables);
+        return new Restaurant(menu, tables, happyHour);
     }
 
-    // listed in the order they act each turn
-    public List<Staff> createStaff() {
-        return List.of(new Waiter(), new Chef());
+    public List<Staff> getStaff() {
+        return staff;
     }
 
     public Cashier createCashier() {

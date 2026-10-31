@@ -22,7 +22,7 @@ public class CommandInput implements ManagerInput {
 
     private static final String HELP = """
               <number>     the task with that number in the list
-              seat C2 T1   seat customer C2 at table T1          (Waiter)
+              seat C2 T1   seat customer C2 at table T1          (Host, Waiter)
               order C2     take C2's order                       (Waiter)
               serve C2     serve C2's dish once it is READY      (Waiter)
               cook C2      do one preparation unit of C2's order (Chef)
@@ -59,6 +59,20 @@ public class CommandInput implements ManagerInput {
                 continue;
             }
             return toTask(line, allowed, restaurant);
+        }
+    }
+
+    @Override
+    public boolean wantsHappyHour() {
+        while (true) {
+            String answer = readLine("Start Happy Hour? 20% off new orders and +15 for waiting customers, this turn and next (y/n)> ").toLowerCase();
+            if (answer.equals("y") || answer.equals("yes")) {
+                return true;
+            }
+            if (answer.equals("n") || answer.equals("no")) {
+                return false;
+            }
+            System.out.println(colors.yellow("   Please answer y or n."));
         }
     }
 

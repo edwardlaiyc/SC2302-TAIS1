@@ -8,6 +8,7 @@ import rush.entity.Customer;
 import rush.entity.CustomerState;
 import rush.entity.GameOutcome;
 import rush.entity.GameStats;
+import rush.entity.HappyHour;
 import rush.entity.Objective;
 import rush.entity.Order;
 import rush.entity.Restaurant;
@@ -56,6 +57,20 @@ public class ConsoleView implements GameListener {
             heading = "";
         }
 
+        HappyHour happyHour = restaurant.getHappyHour();
+        if (happyHour.isAvailable()) {
+            String status;
+            if (happyHour.isActive(turn)) {
+                int left = happyHour.getTurnsLeft(turn);
+                status = colors.green(left == 1 ? "ACTIVE, last turn" : "ACTIVE, " + left + " turns left");
+            } else if (happyHour.canStart()) {
+                status = "available";
+            } else {
+                status = colors.dim("used");
+            }
+            System.out.println(label("Happy Hour") + status);
+        }
+
         List<String> kitchen = new ArrayList<>();
         for (Order order : restaurant.getKitchenOrders()) {
             kitchen.add(order + " " + order.getUnitsDone() + "/" + order.getUnitsNeeded() + " " + order.getStatus());
@@ -77,6 +92,20 @@ public class ConsoleView implements GameListener {
     @Override
     public void customerArrived(Customer customer) {
         System.out.println(colors.cyan(" + " + customer + " (" + customer.getType() + ") arrives and joins the queue (100)"));
+    }
+
+    @Override
+    public void happyHourStarted() {
+        System.out.println(colors.green(" * Happy Hour is ACTIVE, 2 turns left: 20% off orders taken this turn and next"));
+    }
+
+    @Override
+    public void customersRecovered(List<Customer> customers, int amount) {
+        List<String> names = new ArrayList<>();
+        for (Customer customer : customers) {
+            names.add(customer + " " + satisfaction(customer));
+        }
+        System.out.println(colors.green(" * Happy Hour: +" + amount + " for " + String.join(", ", names)));
     }
 
     @Override
@@ -173,7 +202,7 @@ public class ConsoleView implements GameListener {
     }
 
     private static String label(String text) {
-        return String.format(" %-9s", text);
+        return String.format(" %-11s", text);
     }
 
     private static String average(GameStats stats) {

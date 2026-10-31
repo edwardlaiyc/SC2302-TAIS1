@@ -15,6 +15,10 @@ public interface GameListener {
 
     default void customerArrived(Customer customer) { }
 
+    default void happyHourStarted() { }
+
+    default void customersRecovered(List<Customer> customers, int amount) { }
+
     default void taskDone(Staff staff, Task task) { }
 
     default void taskRefused(Staff staff, String reason) { }

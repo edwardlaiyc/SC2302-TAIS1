@@ -10,9 +10,11 @@ public class Restaurant {
     private final WaitingQueue queue = new WaitingQueue();
     private final List<Customer> customers = new ArrayList<>();
     private final GameStats stats = new GameStats();
+    private final HappyHour happyHour;
 
-    public Restaurant(Menu menu, int tableCount) {
+    public Restaurant(Menu menu, int tableCount, boolean happyHourAvailable) {
         this.menu = menu;
+        this.happyHour = new HappyHour(happyHourAvailable);
         for (int number = 1; number <= tableCount; number++) {
             tables.add(new Table(number));
         }
@@ -27,6 +29,31 @@ public class Restaurant {
         queue.remove(customer);
         table.seat(customer);
         customer.sitAt(table);
+    }
+
+    // the customer picks the dish; the price is locked now, Happy Hour included
+    void takeOrder(Customer customer, int turn) {
+        MenuItem item = customer.chooseItem(menu);
+        Money price = happyHour.applyTo(customer.getBill(item), turn);
+        customer.placeOrder(item, price, turn);
+    }
+
+    public void startHappyHour(int turn) {
+        happyHour.start(turn);
+    }
+
+    // during Happy Hour, anyone still waiting for a table or food gets some patience back
+    public List<Customer> recoverWaitingCustomers(int turn) {
+        List<Customer> recovered = new ArrayList<>();
+        if (happyHour.isActive(turn)) {
+            for (Customer customer : customers) {
+                if (customer.isWaitingForService()) {
+                    customer.recover(happyHour.getRecovery());
+                    recovered.add(customer);
+                }
+            }
+        }
+        return recovered;
     }
 
     void addServed() {
@@ -105,6 +132,10 @@ public class Restaurant {
 
     public List<Customer> getCustomers() {
         return List.copyOf(customers);
+    }
+
+    public HappyHour getHappyHour() {
+        return happyHour;
     }
 
     public GameStats getStats() {

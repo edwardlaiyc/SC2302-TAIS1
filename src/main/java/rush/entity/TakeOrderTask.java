@@ -25,7 +25,7 @@ public class TakeOrderTask extends Task {
 
     @Override
     protected void apply(Restaurant restaurant, int turn) {
-        customer.placeOrder(restaurant.getMenu(), turn);
+        restaurant.takeOrder(customer, turn);
     }
 
     @Override

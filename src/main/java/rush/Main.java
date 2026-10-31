@@ -20,7 +20,8 @@ public class Main {
     private static final String USAGE = """
             Usage: run [options]
               --replay FILE   play the commands in FILE instead of reading the keyboard
-              --setting NAME  stage1 (Regular customers only) or stage2 (default)
+              --setting NAME  stage1 (Regular only), stage2 (adds VIP and Critic)
+                              or stage3 (adds Host, combos and Happy Hour; the default)
               --csv FILE      write each customer's satisfaction per turn to FILE
               --no-color      plain text output
             """;
@@ -28,7 +29,7 @@ public class Main {
     public static void main(String[] args) {
         String replayFile = null;
         String csvFile = null;
-        String setting = "stage2";
+        String setting = "stage3";
         boolean color = Colors.supported();
 
         for (int i = 0; i < args.length; i++) {
@@ -52,6 +53,8 @@ public class Main {
             config = GameConfig.stage1();
         } else if (setting.equals("stage2")) {
             config = GameConfig.stage2();
+        } else if (setting.equals("stage3")) {
+            config = GameConfig.stage3();
         } else {
             System.out.print(USAGE);
             return;
