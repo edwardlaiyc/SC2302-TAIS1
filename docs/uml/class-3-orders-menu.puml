@@ -1,0 +1,79 @@
+@startuml class-3-orders-menu
+!include view-style.puml
+
+class Order <<entity>> {
+  - price: Money
+  - takenTurn: int
+  - status: OrderStatus
+  - unitsDone: int
+  - readyTurn: int
+  ~ Order(customer: Customer, item: MenuItem, price: Money, takenTurn: int)
+  ~ checkCookable(): void
+  ~ cookOneUnit(turn: int): void
+  ~ checkServable(turn: int): void
+  ~ markServed(): void
+  ~ markPaid(): void
+  ~ cancelIfNotServed(): void
+  + getReadyTurn(): int
+  + getUnitsNeeded(): int
+}
+enum OrderStatus <<enumeration>> {
+  PREPARING
+  READY
+  SERVED
+  PAID
+  CANCELLED
+}
+class Menu <<entity>> {
+  - items: List<MenuItem>
+  + {static} standard(): Menu
+  + {static} withCombos(): Menu
+  + get(index: int): MenuItem
+  + size(): int
+}
+class MenuItem <<entity>> {
+  - name: String
+  - price: Money
+  - preparationUnits: int
+  + MenuItem(name: String, price: Money, preparationUnits: int)
+}
+class ComboMeal <<entity>> {
+  - first: MenuItem
+  - second: MenuItem
+  + ComboMeal(first: MenuItem, second: MenuItem)
+}
+class Money <<entity>> {
+  + {static} ZERO: Money
+  - cents: int
+  - Money(cents: int)
+  + {static} ofCents(cents: int): Money
+  + {static} ofDollars(dollars: int): Money
+  + plus(other: Money): Money
+  + percent(percent: int): Money
+  + isAtLeast(other: Money): boolean
+  + equals(other: Object): boolean
+}
+abstract class Customer <<entity>>
+hide Customer members
+
+Customer "1" -- "0..1" Order : places >
+Order --> "1 status" OrderStatus
+Order --> "1 item" MenuItem
+Menu *-- "1..* items\n{ordered}" MenuItem
+MenuItem <|-- ComboMeal
+ComboMeal o-- "2" MenuItem
+Order ..> Money
+MenuItem ..> Money
+
+note right of Money
+  <b>Encapsulation</b>
+  final and immutable; the cents
+  are hidden behind plus() and percent()
+end note
+note bottom of ComboMeal
+  <b>Inheritance + aggregation</b>
+  is a MenuItem, so ordering, cooking and
+  paying treat it like any dish; its two
+  parts also stand alone on the menu
+end note
+@enduml

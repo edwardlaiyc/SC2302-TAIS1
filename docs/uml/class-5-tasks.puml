@@ -1,0 +1,57 @@
+@startuml class-5-tasks
+!include view-style.puml
+
+abstract class Task <<entity>> {
+  + {abstract} getType(): TaskType
+  + {abstract} check(restaurant: Restaurant, turn: int): void
+  # {abstract} apply(restaurant: Restaurant, turn: int): void
+  + {abstract} getCommand(): String
+  + {abstract} getResult(): String
+  ~ perform(restaurant: Restaurant, turn: int): void {final}
+  + isAllowed(restaurant: Restaurant, turn: int): boolean {final}
+}
+class SeatTask <<entity>> {
+  - customer: Customer
+  - table: Table
+}
+class TakeOrderTask <<entity>> {
+  - customer: Customer
+}
+class ServeTask <<entity>> {
+  - customer: Customer
+}
+class CookTask <<entity>> {
+  - customer: Customer
+}
+class WaitTask <<entity>>
+class InvalidTaskException <<entity>> {
+  + InvalidTaskException(message: String)
+}
+class Exception
+abstract class Customer <<entity>>
+class Table <<entity>>
+hide Customer members
+hide Table members
+hide Exception members
+hide Exception circle
+
+Task <|-- SeatTask
+Task <|-- TakeOrderTask
+Task <|-- ServeTask
+Task <|-- CookTask
+Task <|-- WaitTask
+Exception <|-- InvalidTaskException
+Task ..> InvalidTaskException : throws >
+SeatTask --> "1" Customer
+SeatTask --> "1" Table
+TakeOrderTask --> "1" Customer
+ServeTask --> "1" Customer
+CookTask --> "1" Customer
+
+note right of Task
+  <b>Polymorphism</b>
+  Staff calls Task.perform(), which calls
+  the task's own check() and apply(). The same check()
+  lists the allowed tasks and refuses bad ones.
+end note
+@enduml

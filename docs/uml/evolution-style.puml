@@ -1,0 +1,22 @@
+!include theme.puml
+hide members
+hide circle
+skinparam defaultFontSize 13
+skinparam class<<new>> {
+  BackgroundColor #E2EEED
+  BorderColor #0F796F
+  BorderThickness 2
+  HeaderBackgroundColor #E2EEED
+}
+skinparam class<<changed>> {
+  BackgroundColor #FFFAE1
+  BorderColor #C4992A
+  BorderThickness 2
+  HeaderBackgroundColor #FFFAE1
+}
+skinparam class<<unchanged>> {
+  BackgroundColor #F8F9FA
+  BorderColor #BABECB
+  HeaderBackgroundColor #F8F9FA
+  FontColor #7B849C
+}

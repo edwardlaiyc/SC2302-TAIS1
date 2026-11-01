@@ -1,0 +1,78 @@
+# Stage 3 defeat run: Host, combos and Happy Hour. C2 is a VIP, C4 is a Critic.
+# Replay: ./run.sh --replay runs/stage3-defeat.txt
+# Mistakes: Happy Hour is spent on turn 1, when nobody is ordering; service is slow;
+# and the Critic's combo sits on the pass until it is cold.
+# Each turn: the Happy Hour answer (until it is used), then the Host, Waiter and Chef.
+# turn 1: Happy Hour started too early, and the Waiter seats C1 instead of taking orders
+y
+wait
+seat C1 T1
+wait
+# turn 2: Happy Hour is still on, but nobody orders
+wait
+wait
+wait
+# turn 3
+wait
+order C1
+cook C1
+# turn 4: the VIP arrives; C1's Salad waits on the pass
+seat C2 T2
+wait
+wait
+# turn 5
+wait
+order C2
+cook C2
+# turn 6
+wait
+serve C1
+wait
+# turn 7
+wait
+serve C2
+wait
+# turn 8: T1 is still taken until C1 pays at the end of this turn
+wait
+wait
+wait
+# turn 9
+seat C3 T1
+wait
+wait
+# turn 10: the Critic arrives
+seat C4 T2
+order C3
+cook C3
+# turn 11: the Critic orders a 3-unit combo
+wait
+order C4
+cook C3
+# turn 12: C3's Pasta is ready, but the Waiter waits
+wait
+wait
+cook C4
+# turn 13
+wait
+serve C3
+cook C4
+# turn 14
+wait
+wait
+cook C4
+# turn 15: the Critic's combo is ready, but nobody serves it
+wait
+wait
+wait
+# turn 16: served a turn late: cold food
+seat C5 T1
+serve C4
+wait
+# turn 17
+wait
+order C5
+cook C5
+# turn 18
+wait
+wait
+cook C5

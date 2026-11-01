@@ -1,0 +1,74 @@
+@startuml class-2-customers
+!include view-style.puml
+
+abstract class Customer <<entity>> {
+  + {static} MAX_SATISFACTION: int = 100
+  - id: int
+  - arrivalTurn: int
+  - state: CustomerState
+  - satisfaction: int
+  - servedTurn: int
+  - readyToPayTurn: int
+  # Customer(id: int, arrivalTurn: int)
+  + {abstract} getType(): String
+  + {abstract} getSatisfactionLoss(): int
+  + getBill(item: MenuItem): Money
+  + getReaction(): String
+  + chooseItem(menu: Menu): MenuItem
+  ~ sitAt(table: Table): void
+  ~ placeOrder(item: MenuItem, price: Money, turn: int): Order
+  ~ startEating(turn: int): void
+  ~ finishEating(turn: int): boolean
+  + canPayOn(turn: int): boolean
+  ~ pay(): Money
+  + isWaitingForService(): boolean
+  ~ loseSatisfaction(): boolean
+  ~ recover(amount: int): void
+  # reduceSatisfaction(amount: int): void
+  ~ leave(): void
+}
+class RegularCustomer <<entity>> {
+  + getType(): String
+  + getSatisfactionLoss(): int
+}
+class VIPCustomer <<entity>> {
+  + getType(): String
+  + getSatisfactionLoss(): int
+  + getBill(item: MenuItem): Money
+}
+class CriticCustomer <<entity>> {
+  - {static} COLD_FOOD_PENALTY: int = 10
+  - gotColdFood: boolean
+  + getType(): String
+  + getSatisfactionLoss(): int
+  + chooseItem(menu: Menu): MenuItem
+  ~ startEating(turn: int): void
+  + getReaction(): String
+}
+enum CustomerState <<enumeration>> {
+  WAITING
+  SEATED
+  ORDERED
+  EATING
+  READY_TO_PAY
+  PAID
+  LEFT
+}
+class Order <<entity>>
+class Table <<entity>>
+hide Order members
+hide Table members
+
+Customer <|-- RegularCustomer
+Customer <|-- VIPCustomer
+Customer <|-- CriticCustomer
+Customer --> "1 state" CustomerState
+Customer "1 customer" -- "0..1 order" Order : places >
+Customer "0..1 customer" -- "0..1 table" Table : sits at >
+
+note bottom of VIPCustomer
+  <b>Polymorphism</b>
+  each type overrides only what differs;
+  no code checks a customer's type
+end note
+@enduml

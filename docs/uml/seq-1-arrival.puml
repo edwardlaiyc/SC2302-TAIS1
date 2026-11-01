@@ -1,0 +1,36 @@
+@startuml seq-1-arrival
+!include seq-style.puml
+mainframe sd Serve the Critic — 1 of 5: turn 10, arrival and Happy Hour
+autonumber 1 "<b>0"
+
+actor Manager
+participant "input :\nCommandInput" as IN <<boundary>>
+participant "game :\nGameController" as GC <<control>>
+participant "schedule :\nArrivalSchedule" as AS <<control>>
+participant "restaurant :\nRestaurant" as R <<entity>>
+participant "happyHour :\nHappyHour" as HH <<entity>>
+
+GC -> AS : arrivalsOn(10)
+create participant "c4 :\nCriticCustomer" as C <<entity>>
+AS -> C : <<create>>
+AS --> GC : [c4]
+GC -> R : admit(c4)
+note right of R : c4 joins the queue\nat satisfaction 100
+
+GC -> HH : canStart()
+HH --> GC : true
+GC -> IN : wantsHappyHour()
+IN -> Manager : "Start Happy Hour?"
+Manager --> IN : y
+IN --> GC : true
+GC -> R : startHappyHour(10)
+R -> HH : start(10)
+
+GC -> R : recoverWaitingCustomers(10)
+R -> HH : isActive(10)
+HH --> R : true
+loop each customer waiting for a table or food
+  R -> C : recover(15)
+  note right of C : capped at 100
+end
+@enduml

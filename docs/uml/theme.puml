@@ -1,0 +1,82 @@
+' Shared look for every diagram, built from the OGP design system tokens
+' (@opengovsg/design-system-react 1.35.1, MIT): Inter, slate content colours,
+' and one tint per BCE stereotype. Include it with: !include theme.puml
+
+
+skinparam defaultFontName Inter
+skinparam defaultFontSize 12
+skinparam defaultFontColor #2C2E34
+skinparam shadowing false
+skinparam roundCorner 8
+skinparam backgroundColor #FFFFFF
+skinparam ArrowColor #5D6785
+skinparam ArrowThickness 1
+skinparam ArrowFontColor #454953
+skinparam ArrowFontSize 11
+skinparam nodesep 45
+skinparam ranksep 55
+skinparam padding 2
+
+skinparam class {
+  BackgroundColor #FFFFFF
+  BorderColor #BABECB
+  BorderThickness 1
+  HeaderBackgroundColor #F8F9FA
+  FontStyle bold
+  FontSize 13
+  AttributeFontColor #454953
+  AttributeFontSize 12
+  StereotypeFontColor #666C7A
+  StereotypeFontSize 10
+}
+
+' Boundary: OGP blue
+skinparam class<<boundary>> {
+  BorderColor #1361F0
+  HeaderBackgroundColor #E7EFFC
+}
+' Control: OGP yellow
+skinparam class<<control>> {
+  BorderColor #C4992A
+  HeaderBackgroundColor #FFFAE1
+}
+' Entity: OGP green
+skinparam class<<entity>> {
+  BorderColor #0F796F
+  HeaderBackgroundColor #E2EEED
+}
+
+skinparam package {
+  BorderColor #BABECB
+  BackgroundColor #FFFFFF
+  FontColor #5D6785
+  FontStyle bold
+  FontSize 12
+  Style rectangle
+}
+
+skinparam note {
+  BackgroundColor #F7F9FE
+  BorderColor #82ABF7
+  FontColor #2C2E34
+  FontSize 11
+}
+
+skinparam stereotypeCBackgroundColor #E2EEED
+skinparam stereotypeABackgroundColor #E9EAEE
+skinparam stereotypeIBackgroundColor #E7EFFC
+skinparam stereotypeEBackgroundColor #FFFAE1
+
+skinparam sequence {
+  LifeLineBorderColor #9AA0B3
+  LifeLineBackgroundColor #E7EFFC
+  ParticipantBackgroundColor #FFFFFF
+  ParticipantBorderColor #5D6785
+  ActorBorderColor #5D6785
+  ActorBackgroundColor #FFFFFF
+  GroupBorderColor #9AA0B3
+  GroupBackgroundColor #F8F9FA
+  GroupHeaderFontColor #2C2E34
+  DividerBackgroundColor #F8F9FA
+  ReferenceBackgroundColor #F8F9FA
+}

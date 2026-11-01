@@ -1,0 +1,52 @@
+@startuml evolution-2-3
+!include evolution-style.puml
+skinparam nodesep 30
+skinparam ranksep 38
+
+package "Happy Hour" as hh {
+  class GameController <<changed>>
+  class Restaurant <<changed>>
+  class HappyHour <<new>>
+  class TakeOrderTask <<changed>>
+  abstract class Customer <<changed>>
+}
+
+package "Host" as host {
+  abstract class Staff <<unchanged>>
+  class Host <<new>>
+  class "Waiter, Chef" as WC <<unchanged>>
+  class SeatTask <<unchanged>>
+}
+
+package "ComboMeal" as combo {
+  class Menu <<changed>>
+  class MenuItem <<unchanged>>
+  class ComboMeal <<new>>
+}
+
+package "setup, input and display" as setup {
+  class GameConfig <<changed>>
+  class Main <<changed>>
+  class ManagerInput <<changed>>
+  class GameListener <<changed>>
+  class CommandInput <<changed>>
+  class ConsoleView <<changed>>
+}
+
+GameController --> Restaurant : startHappyHour()
+Restaurant *-- HappyHour
+TakeOrderTask ..> Restaurant : takeOrder()
+Restaurant ..> Customer : placeOrder(item, price)
+
+Staff <|-- Host
+Staff <|-- WC
+Host ..> SeatTask : reuses
+
+Menu *-- MenuItem
+MenuItem <|-- ComboMeal
+ComboMeal o-- "2" MenuItem
+
+CommandInput ..|> ManagerInput
+ConsoleView ..|> GameListener
+Main ..> GameConfig
+@enduml

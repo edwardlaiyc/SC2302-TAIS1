@@ -1,0 +1,49 @@
+@startuml seq-2-order
+!include seq-style.puml
+mainframe sd Serve the Critic — 2 of 5: turn 10, the Host seats and the Waiter takes the order
+autonumber 17 "<b>0"
+
+actor Manager
+participant "input :\nCommandInput" as IN <<boundary>>
+participant "game :\nGameController" as GC <<control>>
+participant "host :\nHost" as H <<entity>>
+participant "seatTask :\nSeatTask" as ST <<entity>>
+participant "waiter :\nWaiter" as W <<entity>>
+participant "orderTask :\nTakeOrderTask" as OT <<entity>>
+participant "restaurant :\nRestaurant" as R <<entity>>
+participant "happyHour :\nHappyHour" as HH <<entity>>
+participant "c4 :\nCriticCustomer" as C <<entity>>
+
+group Host acts first: seat C4
+  GC -> IN : chooseTask(host, allowed, restaurant)
+  Manager --> IN : seat C4 T2
+  IN -> ST : <<create>>
+  GC -> H : perform(seatTask, restaurant, 10)
+  H -> ST : perform(restaurant, 10)
+  ST -> ST : check(restaurant, 10)
+  ST -> ST : apply(restaurant, 10)
+  ST -> R : seat(c4, t2)
+  R -> C : sitAt(t2)
+end
+
+group Waiter acts next: take C4's order
+  GC -> IN : chooseTask(waiter, allowed, restaurant)
+  Manager --> IN : order C4
+  IN -> OT : <<create>>
+  GC -> W : perform(orderTask, restaurant, 10)
+  W -> OT : perform(restaurant, 10)
+  OT -> OT : check(restaurant, 10)
+  OT -> OT : apply(restaurant, 10)
+  OT -> R : takeOrder(c4, 10)
+  R -> C : chooseItem(menu)
+  C --> R : Burger + Pasta, 3 units
+  R -> C : getBill(item)
+  C --> R : $29.70
+  R -> HH : applyTo($29.70, 10)
+  HH --> R : $23.76
+  R -> C : placeOrder(item, $23.76, 10)
+  create participant "o4 :\nOrder" as O <<entity>>
+  C -> O : <<create>>
+  note right of O : price locked\nat $23.76
+end
+@enduml

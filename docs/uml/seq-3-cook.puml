@@ -1,0 +1,39 @@
+@startuml seq-3-cook
+!include seq-style.puml
+mainframe sd Serve the Critic — 3 of 5: turns 10–12, the Chef cooks the combo
+autonumber 42 "<b>0"
+
+actor Manager
+participant "input :\nCommandInput" as IN <<boundary>>
+participant "game :\nGameController" as GC <<control>>
+participant "chef :\nChef" as S <<entity>>
+participant "task :\nCookTask" as T <<entity>>
+participant "restaurant :\nRestaurant" as R <<entity>>
+participant "c4 :\nCriticCustomer" as C <<entity>>
+participant "o4 :\nOrder" as O <<entity>>
+
+loop turn = 10, 11, 12
+  opt Happy Hour still active (turn 11; turn 10 is in part 1)
+    GC -> R : recoverWaitingCustomers(turn)
+    R -> C : recover(15)
+  end
+  GC -> IN : chooseTask(chef, allowed, restaurant)
+  Manager --> IN : cook C4
+  IN -> T : <<create>>
+  GC -> S : perform(task, restaurant, turn)
+  S -> T : perform(restaurant, turn)
+  T -> T : check(restaurant, turn)
+  T -> T : apply(restaurant, turn)
+  T -> O : cookOneUnit(turn)
+  opt third unit (turn 12)
+    O -> O : status = READY,\nreadyTurn = 12
+  end
+  GC -> R : loseWaitingSatisfaction()
+  R -> C : loseSatisfaction()
+end
+note right of C
+  end of turn 10: 88
+  turn 11: +15 (capped at 100), −12 → 88
+  turn 12: 76
+end note
+@enduml

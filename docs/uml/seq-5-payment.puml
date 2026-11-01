@@ -1,0 +1,45 @@
+@startuml seq-5-payment
+!include seq-style.puml
+mainframe sd Serve the Critic — 5 of 5: turns 14–18, eating, payment and the result
+autonumber 67 "<b>0"
+
+actor Manager
+participant "view :\nConsoleView" as V <<boundary>>
+participant "game :\nGameController" as GC <<control>>
+participant "cashier :\nCashier" as CA <<entity>>
+participant "restaurant :\nRestaurant" as R <<entity>>
+participant "stats :\nGameStats" as GS <<entity>>
+participant "c4 :\nCriticCustomer" as C <<entity>>
+participant "o4 :\nOrder" as O <<entity>>
+participant "objective :\nObjective" as OB <<entity>>
+
+== Turn 14: eating ==
+GC -> R : finishEating(14)
+R -> C : finishEating(14)
+C -> C : served on an earlier turn:\nREADY_TO_PAY from turn 14
+C --> R : true
+
+== Turn 15: payment ==
+GC -> CA : collectPayment(restaurant, 15)
+note over CA, C
+  Checks for other customers are omitted.
+  C4 is the oldest eligible READY_TO_PAY customer.
+end note
+CA -> C : canPayOn(15)
+C --> CA : true
+CA -> R : takePayment(c4)
+R -> C : pay()
+C -> O : markPaid()
+C --> R : $23.76
+R -> GS : addPayment($23.76, 76)
+CA --> GC : c4
+GC -> V : customerPaid(c4)
+V -> Manager : "C4 pays $23.76 (76)"
+
+== After turn 18: result ==
+GC -> OB : judge(stats)
+OB -> OB : paid ≥ 4, revenue ≥ $45.00,\ntotal ≥ 60 × paid
+OB --> GC : VICTORY
+GC -> V : gameEnded(VICTORY, ...)
+V -> Manager : VICTORY: 4 paid,\n$64.26, average 86.8
+@enduml

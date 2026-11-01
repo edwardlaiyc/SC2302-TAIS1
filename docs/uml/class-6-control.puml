@@ -1,0 +1,82 @@
+@startuml class-6-control
+!include view-style.puml
+left to right direction
+
+class GameController <<control>> {
+  - listeners: List<GameListener>
+  - turn: int
+  + GameController(config: GameConfig, input: ManagerInput)
+  + addListener(listener: GameListener): void
+  + play(): GameOutcome
+  - playTurn(): void
+  - giveTask(member: Staff): void
+}
+class GameConfig <<control>> {
+  - turns: int
+  - tables: int
+  - happyHour: boolean
+  + {static} stage1(): GameConfig
+  + {static} stage2(): GameConfig
+  + {static} stage3(): GameConfig
+  + createRestaurant(): Restaurant
+  + getStaff(): List<Staff>
+  + createCashier(): Cashier
+}
+class ArrivalSchedule <<control>> {
+  - turns: List<Integer>
+  - customerTypes: List<BiFunction<Integer, Integer, Customer>>
+  + add(turn: int, customerType: BiFunction<...>): ArrivalSchedule
+  + {static} allRegular(): ArrivalSchedule
+  + {static} withVipAndCritic(): ArrivalSchedule
+  + arrivalsOn(turn: int): List<Customer>
+}
+interface ManagerInput <<interface>> {
+  + chooseTask(staff: Staff, allowed: List<Task>, restaurant: Restaurant): Task
+  + wantsHappyHour(): boolean
+}
+interface GameListener <<interface>> {
+  + turnStarted(turn, totalTurns, restaurant, staff): void
+  + customerArrived(customer): void
+  + happyHourStarted(): void
+  + customersRecovered(customers, amount): void
+  + taskDone(staff, task): void
+  + taskRefused(staff, reason): void
+  + customerPaid(customer): void
+  + customerFinishedEating(customer): void
+  + customerLeft(customer): void
+  + turnEnded(turn, totalTurns, restaurant): void
+  + gameEnded(outcome, restaurant, objective): void
+}
+class InputEndedException <<control>>
+class RuntimeException
+class Restaurant <<entity>>
+abstract class Staff <<entity>>
+class Cashier <<entity>>
+class Objective <<entity>>
+class Menu <<entity>>
+hide InputEndedException members
+hide RuntimeException members
+hide RuntimeException circle
+hide Restaurant members
+hide Staff members
+hide Cashier members
+hide Objective members
+hide Menu members
+
+GameController --> "1 config" GameConfig
+GameController --> "1 input" ManagerInput
+GameController --> "0..* listeners" GameListener
+GameController --> "1" Restaurant
+GameController --> "1..* staff\n{ordered}" Staff
+GameController --> "1" Cashier
+GameConfig --> "1 arrivals" ArrivalSchedule
+GameConfig --> "1" Menu
+GameConfig --> "1" Objective
+RuntimeException <|-- InputEndedException
+
+note left of ManagerInput
+  <b>Dependency inversion</b>
+  the controller owns these two interfaces;
+  the screen classes implement them
+end note
+@enduml

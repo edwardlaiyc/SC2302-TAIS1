@@ -1,0 +1,33 @@
+@startuml seq-4-choice
+!include seq-style.puml
+mainframe sd Serve the Critic — 4 of 5: turn 13, the manager's choice changes the result
+autonumber 55 "<b>0"
+
+actor Manager
+participant "input :\nCommandInput" as IN <<boundary>>
+participant "game :\nGameController" as GC <<control>>
+participant "waiter :\nWaiter" as S <<entity>>
+participant "task :\nServeTask" as T <<entity>>
+participant "c4 :\nCriticCustomer" as C <<entity>>
+participant "o4 :\nOrder" as O <<entity>>
+
+note over IN, GC : The Host has just seated C5,\nso the Waiter is free this turn.
+GC -> IN : chooseTask(waiter, allowed, restaurant)
+alt serve C4 now (chosen)
+  Manager --> IN : serve C4
+  IN -> T : <<create>>
+  GC -> S : perform(task, restaurant, 13)
+  S -> T : perform(restaurant, 13)
+  T -> T : check(restaurant, 13)
+  T -> O : checkServable(13)
+  note right of O : READY since turn 12,\nso servable from 13
+  T -> T : apply(restaurant, 13)
+  T -> O : markServed()
+  T -> C : startEating(13)
+  C -> C : 13 > 12 + 1? no:\nthe food is hot
+  note right of C : C4 stays at 76
+else take C5's order first
+  Manager --> IN : order C5
+  note over C, O : C4 waits one more turn (−12) and is served on turn 14.\nstartEating(14): 14 > 12 + 1, so the food is cold: reduceSatisfaction(10).\nC4 pays at 54 instead of 76.
+end
+@enduml

@@ -1,0 +1,8 @@
+!include theme.puml
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 200
+skinparam ParticipantPadding 4
+skinparam BoxPadding 4
+skinparam defaultFontSize 13
+hide footbox

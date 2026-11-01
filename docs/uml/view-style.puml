@@ -1,0 +1,18 @@
+!include theme.puml
+set separator none
+' Large type: a view fills a page, so its text must stay readable after the page shrinks it.
+skinparam nodesep 17
+skinparam ranksep 27
+skinparam defaultFontSize 20
+skinparam ArrowFontSize 19
+skinparam class {
+  FontSize 24
+  AttributeFontSize 20
+  StereotypeFontSize 17
+}
+skinparam package {
+  FontSize 20
+}
+skinparam note {
+  FontSize 19
+}

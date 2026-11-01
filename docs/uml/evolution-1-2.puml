@@ -1,0 +1,47 @@
+@startuml evolution-1-2
+!include evolution-style.puml
+skinparam nodesep 30
+skinparam ranksep 38
+
+package "turn rules" as rules {
+  class GameController <<unchanged>>
+  class Restaurant <<unchanged>>
+  class "Staff, Waiter, Chef,\nCashier" as Staffs <<unchanged>>
+}
+
+note bottom of Staffs
+  Task validation rules are unchanged.
+  ServeTask only changes its result message.
+end note
+
+package "customer rules" as people {
+  abstract class Customer <<changed>>
+  class RegularCustomer <<new>>
+  class VIPCustomer <<new>>
+  class CriticCustomer <<new>>
+  class Money <<changed>>
+  class Order <<changed>>
+}
+
+package "setup and display" as setup {
+  class Main <<changed>>
+  class GameConfig <<changed>>
+  class ArrivalSchedule <<changed>>
+  class ConsoleView <<changed>>
+  class ServeTask <<changed>>
+}
+
+GameController --> Restaurant
+GameController --> Staffs
+Restaurant --> Customer
+Customer <|-- RegularCustomer
+Customer <|-- VIPCustomer
+Customer <|-- CriticCustomer
+VIPCustomer ..> Money : percent(90)
+CriticCustomer ..> Order : getReadyTurn()
+
+Main ..> GameConfig
+GameConfig --> ArrivalSchedule
+ArrivalSchedule .left.> Customer : creates each type
+ConsoleView -[hidden]- ServeTask
+@enduml

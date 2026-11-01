@@ -1,0 +1,111 @@
+@startuml class-overview
+!include theme.puml
+hide circle
+set separator none
+hide members
+hide <<enumeration>> members
+skinparam nodesep 10
+skinparam ranksep 30
+skinparam defaultFontSize 20
+skinparam ArrowFontSize 19
+skinparam class {
+  FontSize 26
+  StereotypeFontSize 17
+}
+skinparam package {
+  FontSize 20
+}
+
+package "rush" {
+  class Main <<boundary>>
+}
+
+package "rush.boundary" {
+  class ConsoleView <<boundary>>
+  class CommandInput <<boundary>>
+  class SatisfactionLog <<boundary>>
+  class Colors <<boundary>>
+}
+
+package "rush.control" {
+  class GameController <<control>>
+  class GameConfig <<control>>
+  class ArrivalSchedule <<control>>
+  interface ManagerInput
+  interface GameListener
+}
+
+package "rush.entity" {
+  class Restaurant <<entity>>
+  class Table <<entity>>
+  class WaitingQueue <<entity>>
+  class HappyHour <<entity>>
+  class GameStats <<entity>>
+  class Objective <<entity>>
+  abstract class Customer <<entity>>
+  class RegularCustomer <<entity>>
+  class VIPCustomer <<entity>>
+  class CriticCustomer <<entity>>
+  class Order <<entity>>
+  class Menu <<entity>>
+  class MenuItem <<entity>>
+  class ComboMeal <<entity>>
+  abstract class Staff <<entity>>
+  class Host <<entity>>
+  class Waiter <<entity>>
+  class Chef <<entity>>
+  class Cashier <<entity>>
+  abstract class Task <<entity>>
+  class SeatTask <<entity>>
+  class TakeOrderTask <<entity>>
+  class ServeTask <<entity>>
+  class CookTask <<entity>>
+  class WaitTask <<entity>>
+}
+
+Main ..> GameController : <<create>>
+ConsoleView ..|> GameListener
+SatisfactionLog ..|> GameListener
+CommandInput ..|> ManagerInput
+ConsoleView --> "1" Colors
+CommandInput ..> Task : <<create>>
+
+GameController --> "1" GameConfig
+GameController --> "1 input" ManagerInput
+GameController --> "0..* listeners" GameListener
+GameController --> "1" Restaurant
+GameController --> "1..* staff\n{ordered}" Staff
+GameController --> "1" Cashier
+GameConfig --> "1" ArrivalSchedule
+ArrivalSchedule ..> Customer : <<create>>
+
+Restaurant *-- "1..*" Table
+Restaurant *-- "1" WaitingQueue
+Restaurant *-- "1" HappyHour
+Restaurant *-- "1" GameStats
+Restaurant o-- "1" Menu
+Restaurant --> "0..* customers" Customer
+WaitingQueue o-- "0..*\n{ordered}" Customer
+Table "0..1" -- "0..1" Customer : seats >
+Customer "1" -- "0..1" Order : places >
+Order --> "1" MenuItem
+Menu *-- "1..*\n{ordered}" MenuItem
+Objective ..> GameStats : judges
+
+Customer <|-- RegularCustomer
+Customer <|-- VIPCustomer
+Customer <|-- CriticCustomer
+MenuItem <|-- ComboMeal
+ComboMeal o-- "2 parts" MenuItem
+
+Staff <|-- Host
+Staff <|-- Waiter
+Staff <|-- Chef
+Staff ..> Task : performs
+Task <|-- SeatTask
+Task <|-- TakeOrderTask
+Task <|-- ServeTask
+Task <|-- CookTask
+Task <|-- WaitTask
+Cashier ..> Restaurant : takes payment
+@enduml

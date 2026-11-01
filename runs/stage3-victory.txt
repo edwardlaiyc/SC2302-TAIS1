@@ -1,0 +1,86 @@
+# Stage 3 victory run: Host, combos and Happy Hour. C2 is a VIP, C4 is a Critic.
+# Replay: ./run.sh --replay runs/stage3-victory.txt
+# Each turn: the Happy Hour answer (until it is used), then the Host, Waiter and Chef.
+# turn 1: the Host seats C1, so the Waiter can take the order in the same turn
+n
+seat C1 T1
+order C1
+cook C1
+# turn 2
+n
+wait
+serve C1
+wait
+# turn 3
+n
+wait
+wait
+wait
+# turn 4: the VIP arrives
+n
+seat C2 T2
+order C2
+cook C2
+# turn 5
+n
+wait
+serve C2
+wait
+# turn 6
+n
+wait
+wait
+wait
+# turn 7
+n
+seat C3 T1
+order C3
+cook C3
+# turn 8
+n
+wait
+wait
+cook C3
+# turn 9
+n
+wait
+serve C3
+wait
+# turn 10: the Critic arrives and wants a 3-unit combo. Start Happy Hour now:
+# the combo is priced 20% off, and next turn the Critic gets 15 satisfaction back.
+y
+seat C4 T2
+order C4
+cook C4
+# turn 11
+wait
+wait
+cook C4
+# turn 12
+wait
+wait
+cook C4
+# turn 13: C5 arrives. The Host seats C5 so the Waiter can serve the Critic on time.
+seat C5 T1
+serve C4
+wait
+# turn 14
+wait
+order C5
+cook C5
+# turn 15
+wait
+wait
+cook C5
+# turn 16: C6 arrives
+seat C6 T2
+order C6
+cook C5
+# turn 17
+wait
+serve C5
+cook C6
+# turn 18
+wait
+wait
+cook C6

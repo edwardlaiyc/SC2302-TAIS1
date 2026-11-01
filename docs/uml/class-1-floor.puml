@@ -1,0 +1,88 @@
+@startuml class-1-floor
+!include view-style.puml
+left to right direction
+
+class Restaurant <<entity>> {
+  - menu: Menu
+  - tables: List<Table>
+  - customers: List<Customer>
+  + Restaurant(menu: Menu, tableCount: int, happyHourAvailable: boolean)
+  + admit(customer: Customer): void
+  ~ seat(customer: Customer, table: Table): void
+  ~ takeOrder(customer: Customer, turn: int): void
+  + startHappyHour(turn: int): void
+  + recoverWaitingCustomers(turn: int): List<Customer>
+  + finishEating(turn: int): List<Customer>
+  ~ takePayment(customer: Customer): void
+  + loseWaitingSatisfaction(): List<Customer>
+  + findCustomer(id: int): Customer
+  + findTable(number: int): Table
+  + getKitchenOrders(): List<Order>
+}
+class Table <<entity>> {
+  - number: int
+  ~ seat(customer: Customer): void
+  ~ clear(): void
+  + isFree(): boolean
+}
+class WaitingQueue <<entity>> {
+  ~ join(customer: Customer): void
+  ~ remove(customer: Customer): void
+  ~ removeLeftCustomers(): void
+  + contains(customer: Customer): boolean
+  + getCustomers(): List<Customer>
+}
+class HappyHour <<entity>> {
+  - {static} LENGTH: int = 2
+  - {static} PRICE_PERCENT: int = 80
+  - {static} RECOVERY: int = 15
+  - available: boolean
+  - startTurn: int
+  + canStart(): boolean
+  ~ start(turn: int): void
+  + isActive(turn: int): boolean
+  + getTurnsLeft(turn: int): int
+  + applyTo(price: Money, turn: int): Money
+}
+class GameStats <<entity>> {
+  - revenue: Money
+  - servedCount: int
+  - paidCount: int
+  - paidSatisfactionTotal: int
+  - departures: int
+  ~ addPayment(amount: Money, satisfaction: int): void
+  + getAverageSatisfaction(): double
+}
+class Objective <<entity>> {
+  - minPaid: int
+  - minRevenue: Money
+  - minAverageSatisfaction: int
+  + judge(stats: GameStats): GameOutcome
+}
+enum GameOutcome <<enumeration>> {
+  VICTORY
+  DEFEAT
+}
+abstract class Customer <<entity>>
+class Menu <<entity>>
+hide Customer members
+hide Menu members
+
+Restaurant *-- "1..* tables" Table
+Restaurant *-- "1 queue" WaitingQueue
+Restaurant *-- "1" HappyHour
+Restaurant *-- "1 stats" GameStats
+Restaurant o-- "1 menu" Menu
+Restaurant --> "0..* customers\n{ordered}" Customer
+WaitingQueue o-- "0..*\n{ordered}" Customer
+Table "0..1 table" -- "0..1 customer" Customer : seats >
+Objective ..> GameStats : judges
+Objective ..> GameOutcome
+
+note bottom of HappyHour
+  <b>Composition</b>
+  Restaurant creates its tables, queue,
+  Happy Hour and stats; they live and
+  die with it
+end note
+@enduml

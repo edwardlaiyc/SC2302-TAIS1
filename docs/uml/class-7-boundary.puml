@@ -1,0 +1,52 @@
+@startuml class-7-boundary
+!include view-style.puml
+left to right direction
+
+class Main <<boundary>> {
+  + {static} main(args: String[]): void
+}
+class ConsoleView <<boundary>> {
+  - colors: Colors
+  - turnsUsed: int
+  + showTitle(objective: Objective, turns: int): void
+  + showInputEnded(message: String, restaurant: Restaurant, turn: int): void
+}
+class CommandInput <<boundary>> {
+  - in: BufferedReader
+  - colors: Colors
+  - echo: boolean
+  + chooseTask(staff: Staff, allowed: List<Task>, restaurant: Restaurant): Task
+  + wantsHappyHour(): boolean
+  - readLine(prompt: String): String
+  - toTask(line: String, allowed: List<Task>, restaurant: Restaurant): Task
+}
+class SatisfactionLog <<boundary>> {
+  - file: PrintWriter
+  + turnEnded(turn: int, totalTurns: int, restaurant: Restaurant): void
+}
+class Colors <<boundary>> {
+  - on: boolean
+  + {static} supported(): boolean
+  + bold(text: String): String
+  + green(text: String): String
+  + red(text: String): String
+}
+interface ManagerInput <<interface>>
+interface GameListener <<interface>>
+class GameController <<control>>
+abstract class Task <<entity>>
+hide ManagerInput members
+hide GameListener members
+hide GameController members
+hide Task members
+
+Main ..> GameController : <<create>>
+Main ..> ConsoleView : <<create>>
+Main ..> CommandInput : <<create>>
+CommandInput ..|> ManagerInput
+ConsoleView ..|> GameListener
+SatisfactionLog ..|> GameListener
+ConsoleView --> "1" Colors
+CommandInput --> "1" Colors
+CommandInput ..> Task : <<create>>
+@enduml

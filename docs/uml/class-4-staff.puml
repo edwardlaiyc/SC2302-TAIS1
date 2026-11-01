@@ -1,0 +1,57 @@
+@startuml class-4-staff
+!include view-style.puml
+left to right direction
+
+abstract class Staff <<entity>> {
+  - title: String
+  - duties: List<TaskType>
+  - lastTurnWorked: int
+  # Staff(title: String, duties: TaskType...)
+  + perform(task: Task, restaurant: Restaurant, turn: int): void {final}
+  + canDo(type: TaskType): boolean
+  + getAllowedTasks(restaurant: Restaurant, turn: int): List<Task>
+  # {abstract} possibleTasks(restaurant: Restaurant): List<Task>
+}
+class Host <<entity>> {
+  # possibleTasks(restaurant: Restaurant): List<Task>
+}
+class Waiter <<entity>> {
+  # possibleTasks(restaurant: Restaurant): List<Task>
+}
+class Chef <<entity>> {
+  # possibleTasks(restaurant: Restaurant): List<Task>
+}
+class Cashier <<entity>> {
+  + collectPayment(restaurant: Restaurant, turn: int): Customer
+}
+enum TaskType <<enumeration>> {
+  SEAT
+  TAKE_ORDER
+  SERVE
+  COOK
+  WAIT
+  - activity: String
+}
+abstract class Task <<entity>>
+class Restaurant <<entity>>
+hide Task members
+hide Restaurant members
+
+Staff <|-- Host
+Staff <|-- Waiter
+Staff <|-- Chef
+Staff --> "1..* duties" TaskType
+Staff ..> Task : performs >
+Cashier ..> Restaurant : takes payment >
+
+note right of Staff
+  <b>Template method</b>
+  perform() is final: it enforces one task
+  per turn and the role's duties for every
+  subclass, then runs the task
+end note
+note bottom of Cashier
+  not a Staff: the manager
+  never gives the Cashier a task
+end note
+@enduml
