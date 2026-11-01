@@ -161,6 +161,18 @@ The demonstration video is available on Google Drive: [Restaurant Rush Walkthrou
 | 6 | Victory and defeat gameplay outcomes | 08:28 |
 | 7 | Stage tag comparisons and architecture diagrams | 09:24 |
 
+## Individual AI History
+
+Each member's AI chat history is kept on its own branch, in the `ai-history/` folder.
+
+| Member | Branch |
+|---|---|
+| Cui Tao | To be added |
+| Wazir | To be added |
+| Liu Yuan | To be added |
+| Farsat | [`ai-history/farsat`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/ai-history/farsat/ai-history) |
+| Edward | To be added |
+
 ## Stage-by-Stage Evolution
 
 ### Stage 1 to Stage 2
