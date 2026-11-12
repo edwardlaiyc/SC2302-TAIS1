@@ -167,11 +167,11 @@ Each member's AI chat history is kept on its own branch, in the `ai-history/` fo
 
 | Member | Branch |
 |---|---|
-| Cui Tao | To be added |
+| Cui Tao | [`ai-history/cuitao`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/ai-history/cuitao/ai-history) |
 | Wazir | To be added |
 | Liu Yuan | To be added |
 | Farsat | [`ai-history/farsat`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/ai-history/farsat/ai-history) |
-| Edward | To be added |
+| Edward | [`ai-history/edward`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/ai-history/edward/ai-history) |
 
 ## Stage-by-Stage Evolution
 
