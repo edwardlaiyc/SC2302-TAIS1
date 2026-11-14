@@ -1,0 +1,29 @@
+@startuml state-customer
+!include theme.puml
+skinparam state {
+  BackgroundColor #F7F9FE
+  BorderColor #5D6785
+  FontStyle bold
+  ArrowFontSize 17
+}
+skinparam defaultFontSize 18
+hide empty description
+
+[*] --> WAITING : arrives\n(satisfaction 100)
+WAITING --> SEATED : seat\n(Host or Waiter)
+SEATED --> ORDERED : take order\n(price locked)
+ORDERED --> EATING : serve\n[dish READY on an\nearlier turn]
+EATING --> READY_TO_PAY : next turn
+READY_TO_PAY --> PAID : Cashier\n[ready since an\nearlier turn]
+WAITING --> LEFT : satisfaction\nreaches 0
+SEATED --> LEFT : satisfaction\nreaches 0
+ORDERED --> LEFT : satisfaction\nreaches 0
+PAID --> [*]
+LEFT --> [*]
+
+note right of WAITING
+  WAITING, SEATED and ORDERED lose
+  satisfaction at the end of every turn:
+  Regular 8, VIP 5, Critic 12
+end note
+@enduml

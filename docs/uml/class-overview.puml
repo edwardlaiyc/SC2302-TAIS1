@@ -1,19 +1,21 @@
 @startuml class-overview
 !include theme.puml
+left to right direction
 hide circle
+hide stereotype
 set separator none
 hide members
 hide <<enumeration>> members
 skinparam nodesep 10
 skinparam ranksep 30
 skinparam defaultFontSize 20
-skinparam ArrowFontSize 19
+skinparam ArrowFontSize 24
 skinparam class {
   FontSize 26
   StereotypeFontSize 17
 }
 skinparam package {
-  FontSize 20
+  FontSize 24
 }
 
 package "rush" {
@@ -33,6 +35,7 @@ package "rush.control" {
   class ArrivalSchedule <<control>>
   interface ManagerInput
   interface GameListener
+  class InputEndedException <<control>>
 }
 
 package "rush.entity" {
@@ -61,6 +64,12 @@ package "rush.entity" {
   class ServeTask <<entity>>
   class CookTask <<entity>>
   class WaitTask <<entity>>
+  class Money <<entity>>
+  class InvalidTaskException <<entity>>
+  enum CustomerState <<enumeration>>
+  enum OrderStatus <<enumeration>>
+  enum TaskType <<enumeration>>
+  enum GameOutcome <<enumeration>>
 }
 
 Main ..> GameController : <<create>>
@@ -108,4 +117,14 @@ Task <|-- ServeTask
 Task <|-- CookTask
 Task <|-- WaitTask
 Cashier ..> Restaurant : takes payment
+
+MenuItem --> Money
+Order --> Money
+GameStats --> Money
+Customer --> "1" CustomerState
+Order --> "1" OrderStatus
+Task --> "1" TaskType
+Objective ..> GameOutcome
+Task ..> InvalidTaskException : throws
+CommandInput ..> InputEndedException : throws
 @enduml

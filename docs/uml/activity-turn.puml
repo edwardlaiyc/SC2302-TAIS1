@@ -1,0 +1,44 @@
+@startuml activity-turn
+!include theme.puml
+skinparam defaultFontSize 20
+skinparam activity {
+  BackgroundColor #F7F9FE
+  BorderColor #5D6785
+  DiamondBackgroundColor #FFFAE1
+  DiamondBorderColor #C4992A
+}
+
+start
+repeat :turn = turn + 1;
+  :show the board;
+  :arrivals join the queue at 100;
+  if (Happy Hour unused?) then (yes)
+    if (manager starts it?) then (yes)
+      :start Happy Hour (this turn and next);
+    endif
+  endif
+  if (Happy Hour active?) then (yes)
+    :everyone waiting for a table or food +15;
+  endif
+  repeat :next staff member\n(Host, Waiter, Chef);
+    repeat :manager picks a task;
+    backward :show the reason;
+    repeat while (allowed?) is (no)
+    ->yes;
+    :do the task;
+  repeat while (more staff?) is (yes)
+  ->no;
+  :Cashier takes one payment\n(oldest, ready since an earlier turn);
+  :customers served on an earlier turn\nbecome READY_TO_PAY;
+  :everyone still waiting loses satisfaction;
+  :anyone at 0 leaves: order cancelled, table freed;
+  :show end-of-turn results;
+repeat while (turn < 18?) is (yes)
+->no;
+if (4 paid and $45.00 and average ≥ 60?) then (yes)
+  :VICTORY;
+else (no)
+  :DEFEAT;
+endif
+stop
+@enduml

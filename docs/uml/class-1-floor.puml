@@ -1,6 +1,5 @@
 @startuml class-1-floor
 !include view-style.puml
-left to right direction
 
 class Restaurant <<entity>> {
   - menu: Menu

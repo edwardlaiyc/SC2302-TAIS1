@@ -1,0 +1,21 @@
+@startuml state-order
+!include theme.puml
+skinparam state {
+  BackgroundColor #F7F9FE
+  BorderColor #5D6785
+  FontStyle bold
+  ArrowFontSize 12
+}
+skinparam defaultFontSize 13
+hide empty description
+
+[*] --> PREPARING : order taken
+PREPARING --> PREPARING : cookOneUnit()\n[units left]
+PREPARING --> READY : cookOneUnit()\n[last unit]
+READY --> SERVED : serve\n[from the next turn]
+SERVED --> PAID : customer pays
+PREPARING --> CANCELLED : customer\nleaves
+READY --> CANCELLED : customer\nleaves
+PAID --> [*]
+CANCELLED --> [*]
+@enduml

@@ -1,6 +1,6 @@
-@startuml seq-4-choice
+@startuml seq-5-choice
 !include seq-style.puml
-mainframe sd Serve the Critic — 4 of 5: turn 13, the manager's choice changes the result
+mainframe sd Serve the Critic — 5 of 7: turn 13, the manager's choice changes the result
 autonumber 55 "<b>0"
 
 actor Manager

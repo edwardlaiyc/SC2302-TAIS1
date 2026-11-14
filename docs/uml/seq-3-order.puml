@@ -1,30 +1,17 @@
-@startuml seq-2-order
+@startuml seq-3-order
 !include seq-style.puml
-mainframe sd Serve the Critic — 2 of 5: turn 10, the Host seats and the Waiter takes the order
-autonumber 17 "<b>0"
+skinparam maxMessageSize 150
+mainframe sd Serve the Critic — 3 of 7: turn 10, the Waiter takes the order, price locked
+autonumber 26 "<b>0"
 
 actor Manager
 participant "input :\nCommandInput" as IN <<boundary>>
 participant "game :\nGameController" as GC <<control>>
-participant "host :\nHost" as H <<entity>>
-participant "seatTask :\nSeatTask" as ST <<entity>>
 participant "waiter :\nWaiter" as W <<entity>>
 participant "orderTask :\nTakeOrderTask" as OT <<entity>>
 participant "restaurant :\nRestaurant" as R <<entity>>
 participant "happyHour :\nHappyHour" as HH <<entity>>
 participant "c4 :\nCriticCustomer" as C <<entity>>
-
-group Host acts first: seat C4
-  GC -> IN : chooseTask(host, allowed, restaurant)
-  Manager --> IN : seat C4 T2
-  IN -> ST : <<create>>
-  GC -> H : perform(seatTask, restaurant, 10)
-  H -> ST : perform(restaurant, 10)
-  ST -> ST : check(restaurant, 10)
-  ST -> ST : apply(restaurant, 10)
-  ST -> R : seat(c4, t2)
-  R -> C : sitAt(t2)
-end
 
 group Waiter acts next: take C4's order
   GC -> IN : chooseTask(waiter, allowed, restaurant)

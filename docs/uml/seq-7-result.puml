@@ -1,0 +1,16 @@
+@startuml seq-7-result
+!include seq-style.puml
+mainframe sd Serve the Critic — 7 of 7: after turn 18, the result
+autonumber 82 "<b>0"
+
+actor Manager
+participant "view :\nConsoleView" as V <<boundary>>
+participant "game :\nGameController" as GC <<control>>
+participant "objective :\nObjective" as OB <<entity>>
+
+GC -> OB : judge(stats)
+OB -> OB : paid ≥ 4, revenue ≥ $45.00,\ntotal ≥ 60 × paid
+OB --> GC : VICTORY
+GC -> V : gameEnded(VICTORY, ...)
+V -> Manager : VICTORY: 4 paid,\n$64.26, average 86.8
+@enduml

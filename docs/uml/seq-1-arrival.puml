@@ -1,6 +1,6 @@
 @startuml seq-1-arrival
 !include seq-style.puml
-mainframe sd Serve the Critic — 1 of 5: turn 10, arrival and Happy Hour
+mainframe sd Serve the Critic — 1 of 7: turn 10, arrival and Happy Hour
 autonumber 1 "<b>0"
 
 actor Manager

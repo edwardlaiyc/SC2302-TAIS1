@@ -46,6 +46,9 @@ Menu *-- MenuItem
 MenuItem <|-- ComboMeal
 ComboMeal o-- "2" MenuItem
 
+HappyHour -[hidden]down- Menu
+SeatTask -[hidden]down- Main
+
 CommandInput ..|> ManagerInput
 ConsoleView ..|> GameListener
 Main ..> GameConfig

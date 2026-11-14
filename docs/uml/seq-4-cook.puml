@@ -1,6 +1,7 @@
-@startuml seq-3-cook
+@startuml seq-4-cook
 !include seq-style.puml
-mainframe sd Serve the Critic — 3 of 5: turns 10–12, the Chef cooks the combo
+skinparam maxMessageSize 150
+mainframe sd Serve the Critic — 4 of 7: turns 10–12, the Chef cooks the combo
 autonumber 42 "<b>0"
 
 actor Manager
