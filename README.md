@@ -1,14 +1,11 @@
 # Restaurant Rush
 
-A turn-based command-line restaurant game in Java. You are the manager: each turn you give one task to
-each staff member, and after 18 turns the game checks three targets for victory or defeat.
+A turn-based command-line restaurant game in Java. You are the manager: each turn you give one task to each staff member, and after 18 turns the game checks three targets for victory or defeat.
 
 SC2002 group assignment, lab group TAIS1, group 6.
 
 - Repository: https://github.com/edwardlaiyc/SC2302-TAIS1
-- Stages: [`stage-1`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/stage-1) ·
-  [`stage-2`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/stage-2) ·
-  [`stage-3`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/stage-3)
+- Stages: [`stage-1`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/stage-1) · [`stage-2`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/stage-2) · [`stage-3`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/stage-3)
 - Video: https://drive.google.com/file/d/1ZZbvbxNQxGUYGpd4BAcGnjEaqOI-SG44/view?usp=sharing
 - Report (rules, design, diagrams, evidence): the PDF in the submission. Diagram sources: [`docs/uml/`](docs/uml/)
 
@@ -22,8 +19,7 @@ Requires **JDK 25**. No other tools, libraries or network access. Run from the p
 | Play | `.\run.ps1` | `./run.sh` |
 | Replay a run | `.\run.ps1 --replay runs\stage3-victory.txt` | `./run.sh --replay runs/stage3-victory.txt` |
 
-`--setting stage1`, `stage2` or `stage3` (default) picks the stage. All use the base setting: 18 turns,
-2 tables, arrivals on turns 1, 4, 7, 10, 13 and 16. Type `help` in the game for the commands.
+`--setting stage1`, `stage2` or `stage3` (default) picks the stage. All use the base setting: 18 turns, 2 tables, arrivals on turns 1, 4, 7, 10, 13 and 16. Type `help` in the game for the commands.
 
 ## Replay runs
 
@@ -59,8 +55,7 @@ Compare: https://github.com/edwardlaiyc/SC2302-TAIS1/compare/stage-1...stage-2
 
 **Deleted files:** none.
 
-**Still works:** `GameController`, `Restaurant`, `Staff`, `Waiter`, `Chef`, `Cashier` and the task rules are
-unchanged. The Stage 1 runs give the same results on Stage 2 code (`--setting stage1`).
+**Still works:** `GameController`, `Restaurant`, `Staff`, `Waiter`, `Chef`, `Cashier` and the task rules are unchanged. The Stage 1 runs give the same results on Stage 2 code (`--setting stage1`).
 
 ## Stage 2 → Stage 3
 
@@ -87,9 +82,7 @@ Compare: https://github.com/edwardlaiyc/SC2302-TAIS1/compare/stage-2...stage-3
 
 **Deleted files:** none.
 
-**Still works:** `Staff`, `Waiter`, `Chef`, `Cashier`, `Order`, all customer types and the checks in
-`SeatTask`, `ServeTask` and `CookTask` are unchanged. The Stage 1 and Stage 2 runs give the same results on
-Stage 3 code.
+**Still works:** `Staff`, `Waiter`, `Chef`, `Cashier`, `Order`, all customer types and the checks in `SeatTask`, `ServeTask` and `CookTask` are unchanged. The Stage 1 and Stage 2 runs give the same results on Stage 3 code.
 
 ## Video timestamps
 
