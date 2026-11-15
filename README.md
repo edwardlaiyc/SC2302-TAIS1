@@ -9,7 +9,7 @@ This is the SC2302 group assignment of lab group TAIS1, group 6.
   - [`stage-1`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/stage-1)
   - [`stage-2`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/stage-2)
   - [`stage-3`](https://github.com/edwardlaiyc/SC2302-TAIS1/tree/stage-3)
-- Video: https://drive.google.com/file/d/1ZZbvbxNQxGUYGpd4BAcGnjEaqOI-SG44/view?usp=sharing
+- Video: https://drive.google.com/file/d/1KIPWOP982iiDgpsPoJVe1ARzF-wHCuHa/view?usp=sharing
 - Report: the PDF in the submission. It covers the rules, the design, the diagrams and the evidence. The diagram sources are in [`docs/uml/`](docs/uml/).
 
 ## Build and run
